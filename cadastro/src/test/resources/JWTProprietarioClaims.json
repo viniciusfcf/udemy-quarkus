@@ -1,0 +1,12 @@
+{
+    "iss": "http://localhost:8180/auth/realms/ifood",
+    "jti": "a-123",
+    "sub": "jdoe-using-jwt-rbac",
+    "upn": "jdoe@quarkus.io",
+    "preferred_username": "jdoe",
+    "aud": "using-jwt-rbac",
+    "birthdate": "2001-07-13",
+    "groups": [
+        "proprietario"
+    ]
+}
