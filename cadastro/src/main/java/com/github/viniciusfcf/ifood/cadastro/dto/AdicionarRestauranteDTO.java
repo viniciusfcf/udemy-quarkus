@@ -1,23 +1,41 @@
 package com.github.viniciusfcf.ifood.cadastro.dto;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-public class AdicionarRestauranteDTO {
+import com.github.viniciusfcf.ifood.cadastro.Restaurante;
+import com.github.viniciusfcf.ifood.cadastro.infra.DTO;
+import com.github.viniciusfcf.ifood.cadastro.infra.ValidDTO;
+
+@ValidDTO
+public class AdicionarRestauranteDTO implements DTO {
 
     @NotEmpty
     @NotNull
     public String proprietario;
 
+    @Pattern(regexp = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}\\/[0-9]{4}\\-[0-9]{2}")
+    @NotNull
     public String cnpj;
 
-    @Min(5)
-    @Max(50)
+    @Size(min = 3, max = 30)
     public String nomeFantasia;
 
-    @NotNull
     public LocalizacaoDTO localizacao;
+
+    @Override
+    public boolean isValid(ConstraintValidatorContext constraintValidatorContext) {
+        constraintValidatorContext.disableDefaultConstraintViolation();
+        if (Restaurante.find("cnpj", cnpj).count() > 0) {
+            constraintValidatorContext.buildConstraintViolationWithTemplate("CNPJ já cadastrado")
+                    .addPropertyNode("cnpj")
+                    .addConstraintViolation();
+            return false;
+        }
+        return true;
+    }
 
 }
