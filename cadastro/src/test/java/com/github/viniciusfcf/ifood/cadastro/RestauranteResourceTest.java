@@ -10,6 +10,7 @@ import com.github.database.rider.cdi.api.DBRider;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.viniciusfcf.ifood.cadastro.dto.AtualizarRestauranteDTO;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -43,21 +44,21 @@ public class RestauranteResourceTest {
     @Test
     @DataSet("restaurantes-cenario-1.yml")
     public void testAlterarRestaurante() {
-        Restaurante dto = new Restaurante();
-        dto.nome = "novoNome";
+        AtualizarRestauranteDTO dto = new AtualizarRestauranteDTO();
+        dto.nomeFantasia = "novoNome";
         Long parameterValue = 123L;
-        String resultado = given()
+        given()
                 .with().pathParam("id", parameterValue)
                 .body(dto)
                 .when().put("/restaurantes/{id}")
                 .then()
                 .statusCode(Status.NO_CONTENT.getStatusCode())
                 .extract().asString();
-        Assert.assertEquals("", resultado);
+
         Restaurante findById = Restaurante.findById(parameterValue);
 
         //poderia testar todos os outros atribudos
-        Assert.assertEquals(dto.nome, findById.nome);
+        Assert.assertEquals(dto.nomeFantasia, findById.nome);
 
     }
 
