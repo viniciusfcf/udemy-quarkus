@@ -11,11 +11,6 @@ public class Restaurante {
 
     public Localizacao localizacao;
 
-    @Override
-    public String toString() {
-        return "Restaurante [id=" + id + ", nome=" + nome + ", localizacao=" + localizacao + "]";
-    }
-
     public void persist(PgPool pgPool) {
         pgPool.preparedQuery("insert into localizacao (id, latitude, longitude) values ($1, $2, $3)",
                 Tuple.of(localizacao.id, localizacao.latitude, localizacao.longitude)).await().indefinitely();
@@ -24,4 +19,10 @@ public class Restaurante {
                 Tuple.of(id, nome, localizacao.id)).await().indefinitely();
 
     }
+
+    @Override
+    public String toString() {
+        return "Restaurante [id=" + id + ", nome=" + nome + ", localizacao=" + localizacao + "]";
+    }
+
 }
