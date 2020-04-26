@@ -91,5 +91,30 @@ services:
      - 9000:9000
     depends_on:
       - kafka
-    
+ 
+  # se ocorrer [1]: max virtual memory areas vm.max_map_count [65530] is too low, 
+  # increase to at least [262144]
+  # sudo sysctl -w vm.max_map_count=262144
+
+  elastic:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    network_mode: "host"
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    network_mode: "host"
+    environment:
+      ELASTICSEARCH_HOSTS: http://localhost:9200      
     

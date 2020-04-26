@@ -3,12 +3,17 @@ package com.github.viniciusfcf.ifood.pedido;
 import java.util.ArrayList;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.json.bind.JsonbBuilder;
 
 import org.bson.types.Decimal128;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 @ApplicationScoped
 public class PedidoRealizadoIncoming {
+
+    @Inject
+    ESService elastic;
 
     @Incoming("pedidos")
     public void lerPedidos(PedidoRealizadoDTO dto) {
@@ -22,6 +27,8 @@ public class PedidoRealizadoIncoming {
         Restaurante restaurante = new Restaurante();
         restaurante.nome = dto.restaurante.nome;
         p.restaurante = restaurante;
+        String json = JsonbBuilder.create().toJson(dto);
+        elastic.index("pedidos", json);
         p.persist();
 
     }
