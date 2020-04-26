@@ -65,7 +65,31 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: pedido
       MONGO_INITDB_DATABASE: pedido
       
-      
-      
+  zookeeper:
+    container_name: zookeeper_container
+    image: debezium/zookeeper:1.1
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888
+  kafka:
+    container_name: kafka_container
+    image: debezium/kafka:1.1
+    ports:
+     - 9092:9092
+    links:
+     - zookeeper
+    environment:
+     - ZOOKEEPER_CONNECT=zookeeper:2181
+     
+  kafdrop:
+    container_name: kafdrop_container
+    image: obsidiandynamics/kafdrop:3.24.0
+    environment:
+       KAFKA_BROKERCONNECT: kafka:9092
+    ports:
+     - 9000:9000
+    depends_on:
+      - kafka
     
     
