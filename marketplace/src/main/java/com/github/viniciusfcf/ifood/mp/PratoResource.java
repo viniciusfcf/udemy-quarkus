@@ -12,6 +12,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
+import com.github.viniciusfcf.ifood.mp.dto.PratoDTO;
+
 import io.smallrye.mutiny.Multi;
 import io.vertx.mutiny.pgclient.PgPool;
 

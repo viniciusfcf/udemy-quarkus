@@ -1,4 +1,4 @@
-package com.github.viniciusfcf.ifood.mp;
+package com.github.viniciusfcf.ifood.mp.dto;
 
 import java.math.BigDecimal;
 
