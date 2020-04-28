@@ -23,6 +23,8 @@ nb-configuration.xml
 *.swp
 *.swo
 
+*.jar
+
 # patch
 *.orig
 *.rej

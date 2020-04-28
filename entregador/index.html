@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--https://vertx.io/blog/real-time-bidding-with-websockets-and-vert-x/-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Localizações</title>
+
+    <!-- BAIXADO DOS LINKS ABAIXO
+    https://raw.githubusercontent.com/sockjs/sockjs-client/master/dist/sockjs.min.js
+    https://raw.githubusercontent.com/vert-x3/vertx-bus-bower/master/vertx-eventbus.js
+    -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="js/vertx-eventbus.js"></script>
+    
+    
+    <script src="js/realtime-actions.js"></script>
+</head>
+
+<body onload="init();">
+
+<h3>Localizações</h3>
+<div id="error_message"></div>
+<form>
+    <div>
+        <textarea id="localizacoes" rows="40" cols="120" readonly></textarea>
+    </div>
+</form>
+
+</body>
+
+</html>
+
