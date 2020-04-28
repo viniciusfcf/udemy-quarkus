@@ -117,4 +117,18 @@ services:
     network_mode: "host"
     environment:
       ELASTICSEARCH_HOSTS: http://localhost:9200      
-    
+  
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash-oss:6.8.2
+    volumes:
+      - source: ./pipelines
+        target: /usr/share/logstash/pipeline
+        type: bind
+    network_mode: "host"
+    depends_on:
+      - elastic
+
+networks:
+  graylog:
+    driver: bridge
