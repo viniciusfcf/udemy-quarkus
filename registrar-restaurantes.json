@@ -1,0 +1,15 @@
+{
+    "name": "restaurante-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "postgres_cadastro",
+        "database.port": "5432",
+        "database.user": "cadastro",
+        "database.password": "cadastro",
+        "database.dbname" : "postgres",
+        "database.server.name": "banco-cadastro-1",
+        "schema.whitelist": "public"
+    }
+}
+

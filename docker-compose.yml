@@ -2,7 +2,7 @@ version: "3.7"
 services:
   postgres_cadastro:
     container_name: postgres_cadastro_ifood
-    image: postgres:12.2
+    image: debezium/example-postgres # essa versao vem com as configuracoes necessarias para o connector do debezium
     environment: 
       POSTGRES_USER: cadastro
       POSTGRES_PASSWORD: cadastro
@@ -116,7 +116,7 @@ services:
     image: docker.elastic.co/kibana/kibana:7.6.2
     network_mode: "host"
     environment:
-      ELASTICSEARCH_HOSTS: http://localhost:9200      
+      ELASTICSEARCH_HOSTS: http://localhost:9200
   
   logstash:
     container_name: logstash
@@ -128,4 +128,22 @@ services:
     network_mode: "host"
     depends_on:
       - elastic
-
+  #roda na 8083
+  connect:
+    container_name: connect
+    image: debezium/connect:1.1
+    environment:
+     - BOOTSTRAP_SERVERS=kafka:9092
+     - GROUP_ID=1
+     - CONFIG_STORAGE_TOPIC=my_connect_configs
+     - OFFSET_STORAGE_TOPIC=my_connect_offsets
+     - STATUS_STORAGE_TOPIC=my_connect_statuses
+    ports:
+     - 8083:8083
+    links:
+     - kafka
+     - postgres_cadastro
+    depends_on:
+      - kafka
+      - zookeeper
+      - postgres_cadastro
