@@ -129,6 +129,3 @@ services:
     depends_on:
       - elastic
 
-networks:
-  graylog:
-    driver: bridge

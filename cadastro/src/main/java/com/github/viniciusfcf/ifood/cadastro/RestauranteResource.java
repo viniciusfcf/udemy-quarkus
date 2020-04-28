@@ -24,6 +24,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -49,6 +52,8 @@ import com.github.viniciusfcf.ifood.cadastro.dto.RestauranteDTO;
 import com.github.viniciusfcf.ifood.cadastro.dto.RestauranteMapper;
 import com.github.viniciusfcf.ifood.cadastro.infra.ConstraintViolationResponse;
 
+import io.quarkus.security.ForbiddenException;
+
 @Path("/restaurantes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -68,6 +73,13 @@ public class RestauranteResource {
     @Channel("restaurantes")
     Emitter<String> emitter;
 
+    @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    @Claim(standard = Claims.sub)
+    String sub;
+
     @GET
     @Counted(name = "Quantidade buscas Restaurante")
     @SimplyTimed(name = "Tempo simples de busca")
@@ -83,6 +95,7 @@ public class RestauranteResource {
     @APIResponse(responseCode = "400", content = @Content(schema = @Schema(allOf = ConstraintViolationResponse.class)))
     public Response adicionar(@Valid AdicionarRestauranteDTO dto) {
         Restaurante restaurante = restauranteMapper.toRestaurante(dto);
+        restaurante.proprietario = sub;
         restaurante.persist();
 
         Jsonb jsonb = JsonbBuilder.create();
@@ -101,6 +114,10 @@ public class RestauranteResource {
         }
         Restaurante restaurante = restauranteOp.get();
 
+        if (!restaurante.proprietario.equals(sub)) {
+            throw new ForbiddenException();
+        }
+
         //MapStruct: aqui passo a referencia para ser atualizada 
         restauranteMapper.toRestaurante(dto, restaurante);
 
@@ -112,7 +129,6 @@ public class RestauranteResource {
     @Transactional
     public void delete(@PathParam("id") Long id) {
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(id);
-
         restauranteOp.ifPresentOrElse(Restaurante::delete, () -> {
             throw new NotFoundException();
         });
