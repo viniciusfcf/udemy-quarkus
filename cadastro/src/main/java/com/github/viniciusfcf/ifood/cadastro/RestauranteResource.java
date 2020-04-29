@@ -7,8 +7,6 @@ import java.util.stream.Stream;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -71,7 +69,7 @@ public class RestauranteResource {
 
     @Inject
     @Channel("restaurantes")
-    Emitter<String> emitter;
+    Emitter<Restaurante> emitter;
 
     @Inject
     JsonWebToken jwt;
@@ -98,9 +96,7 @@ public class RestauranteResource {
         restaurante.proprietario = sub;
         restaurante.persist();
 
-        Jsonb jsonb = JsonbBuilder.create();
-        String json = jsonb.toJson(restaurante);
-        emitter.send(json);
+        emitter.send(restaurante);
         return Response.status(Status.CREATED).build();
     }
 
