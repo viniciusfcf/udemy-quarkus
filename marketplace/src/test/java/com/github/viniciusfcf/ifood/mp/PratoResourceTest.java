@@ -11,6 +11,9 @@ public class PratoResourceTest {
 
     @Test
     public void testHelloEndpoint() {
+
+        //Aqui dará erro se não utilizar testContainers
+
         String body = given()
                 .when().get("/pratos")
                 .then()

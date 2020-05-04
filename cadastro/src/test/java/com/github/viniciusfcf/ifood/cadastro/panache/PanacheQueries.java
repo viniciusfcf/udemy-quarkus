@@ -3,8 +3,9 @@ package com.github.viniciusfcf.ifood.cadastro.panache;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import com.github.viniciusfcf.ifood.cadastro.Restaurante;
 
@@ -89,24 +90,40 @@ public class PanacheQueries {
 
     }
 
-    @Entity
-    class MinhaEntidade1 extends PanacheEntity {
-        public String nome;
-    }
+}
 
-    @Entity
-    class MinhaEntidade2 extends PanacheEntityBase {
-        public String nome;
-    }
+@Entity
+class MinhaEntidade1 extends PanacheEntity {
+    public String nome;
+}
 
-    @Entity
-    class MinhaEntidade3 {
-        public String nome;
-    }
+@Entity
+class MinhaEntidade2 extends PanacheEntityBase {
 
-    @ApplicationScoped
-    class MeuRepositorio implements PanacheRepository<MinhaEntidade3> {
+    @Id
+    @GeneratedValue
+    public Long id;
 
+    public String nome;
+
+    public MinhaEntidade2() {
     }
+}
+
+//@Entity
+class MinhaEntidade3 {
+
+    @Id
+    @GeneratedValue
+    public Long id;
+
+    public String nome;
+
+    public MinhaEntidade3() {
+    }
+}
+
+//@ApplicationScoped
+class MeuRepositorio implements PanacheRepository<MinhaEntidade3> {
 
 }
