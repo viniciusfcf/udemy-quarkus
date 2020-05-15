@@ -63,7 +63,6 @@ public class RestauranteResourceTest {
                 .body(dto)
                 .when().put("/restaurantes/{id}")
                 .then()
-                //Se der 403 aqui, é devido a chave publica do keyclock que pode ter alterado
                 .statusCode(Status.NO_CONTENT.getStatusCode())
                 .extract().asString();
 
