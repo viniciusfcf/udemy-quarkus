@@ -36,5 +36,6 @@
 		<module>cadastro</module>
 		<module>marketplace</module>
 		<module>pedido</module>
+		<module>command-mode</module>
 	</modules>
 </project>
