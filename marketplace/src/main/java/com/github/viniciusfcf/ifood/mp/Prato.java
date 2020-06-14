@@ -25,13 +25,13 @@ public class Prato {
     public BigDecimal preco;
 
     public static Multi<PratoDTO> findAll(PgPool pgPool) {
-        Uni<RowSet<Row>> preparedQuery = pgPool.preparedQuery("select * from prato");
+        Uni<RowSet<Row>> preparedQuery = pgPool.query("select * from prato").execute();
         return unitToMulti(preparedQuery);
     }
 
     public static Multi<PratoDTO> findAll(PgPool client, Long idRestaurante) {
         Uni<RowSet<Row>> preparedQuery = client
-                .preparedQuery("SELECT * FROM prato where prato.restaurante_id = $1 ORDER BY nome ASC",
+                .preparedQuery("SELECT * FROM prato where prato.restaurante_id = $1 ORDER BY nome ASC").execute(
                         Tuple.of(idRestaurante));
         return unitToMulti(preparedQuery);
     }
@@ -45,7 +45,7 @@ public class Prato {
     }
 
     public static Uni<PratoDTO> findById(PgPool client, Long id) {
-        return client.preparedQuery("SELECT * FROM prato WHERE id = $1", Tuple.of(id))
+        return client.preparedQuery("SELECT * FROM prato WHERE id = $1").execute(Tuple.of(id))
                 .map(RowSet::iterator)
                 .map(iterator -> iterator.hasNext() ? PratoDTO.from(iterator.next()) : null);
     }
