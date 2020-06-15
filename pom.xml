@@ -38,5 +38,6 @@
 		<module>pedido</module>
 		<module>command-mode</module>
 		<module>picocli</module>
+		<module>grpc</module>
 	</modules>
 </project>

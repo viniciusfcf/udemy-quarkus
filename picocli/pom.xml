@@ -16,7 +16,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-picocli</artifactId>
-      <version>1.5.1.Final</version>
     </dependency>
   </dependencies>
   <build>

@@ -1,0 +1,24 @@
+//https://developers.google.com/protocol-buffers/docs/proto3
+
+//syntax
+//option
+//service
+//message
+
+syntax = "proto3";
+
+option java_package ="com.github.viniciusfcf.proto";
+option java_multiple_files=true;
+
+service OlaService {
+    rpc DigaOla (OlaRequest) returns (OlaResponse);
+}
+
+message OlaRequest {
+    string nome = 1;
+}
+
+message OlaResponse {
+    string mensagem = 1;
+    int32 quantidadeDeChamadas = 2;
+}
