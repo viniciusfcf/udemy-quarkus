@@ -19,7 +19,7 @@ import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.sockjs.BridgeOptions;
+import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.mutiny.core.eventbus.EventBus;
 
@@ -42,7 +42,12 @@ public class PedidoResource {
         SockJSHandler handler = SockJSHandler.create(vertx);
         PermittedOptions permitted = new PermittedOptions();
         permitted.setAddress("novaLocalizacao");
-        BridgeOptions bridgeOptions = new BridgeOptions().addOutboundPermitted(permitted);
+
+        //Alterado na versoa 1.9
+        //        BridgeOptions bridgeOptions = new BridgeOptions().addOutboundPermitted(permitted);
+        //        handler.bridge(bridgeOptions);
+
+        SockJSBridgeOptions bridgeOptions = new SockJSBridgeOptions().addOutboundPermitted(permitted);
         handler.bridge(bridgeOptions);
         return handler;
     }

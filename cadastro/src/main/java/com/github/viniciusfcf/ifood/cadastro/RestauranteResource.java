@@ -58,7 +58,7 @@ import io.quarkus.security.ForbiddenException;
 @Tag(name = "restaurante")
 @RolesAllowed("proprietario")
 @SecurityScheme(securitySchemeName = "ifood-oauth", type = SecuritySchemeType.OAUTH2, flows = @OAuthFlows(password = @OAuthFlow(tokenUrl = "http://localhost:8180/auth/realms/ifood/protocol/openid-connect/token")))
-@SecurityRequirement(name = "ifood-oauth")
+@SecurityRequirement(name = "ifood-oauth", scopes = {})
 public class RestauranteResource {
 
     @Inject
